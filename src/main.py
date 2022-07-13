@@ -7,23 +7,10 @@ if len(sys.argv) != 3:
 binary = sys.argv[1] 
 binaryInput = sys.argv[2]
 
-with open(binaryInput, "r") as file:
+with open(binaryInput, "r", encoding="ISO-8859-1") as file:
     input = file.read()
 
-inputType = ""
-
-if validateJSON(input):
-    inputType = "json"
-elif validateCSV(input):
-    inputType = "csv"
-elif validateJpg(input):
-    inputType = "jpg"
-elif validateXml(input):
-    inputType = "xml"
-elif input == "":
-    inputType = "empty"
-else:
-    inputType = "plaintext"
+inputType = findInputType(input)
 
 #We need to get jpg working and pdf and elf ability by the end of the project.
 
