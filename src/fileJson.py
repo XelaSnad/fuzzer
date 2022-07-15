@@ -29,7 +29,7 @@ def byte_flip_str(string, l, index):
 	l.append(byte_flip_str(new, l, index + 1))
 
 
-def generate_inputs(data):
+def generate_inputs(data, method, max_repeat_time = None):
 	inputs = []
 	for i in data:
 		temp = []
@@ -40,11 +40,13 @@ def generate_inputs(data):
 			element = data[i]
 
 		if type(element) == int or type(element) == float:
-			byte_flip_int(element, temp, 0)
+			if method == "byte_flips":
+				byte_flip_int(element, temp, 0)
 		elif type(element) == dict or type(element) == list:
-			temp = generate_inputs(element)
+			temp = generate_inputs(element, method)
 		elif type(element) == str:
-			byte_flip_str(element, temp, 0)
+			if method == "byte_flips":
+				byte_flip_str(element, temp, 0)
 
 		new = [i for i in temp if i != None]
 		inputs.append(new)
@@ -85,19 +87,29 @@ def chose_sample(inputs, data, sample):
 				chose_sample(inputs[index], element, sample[i])
 		index += 1
 
+def generate_samples_byte_flips(data, n):
+	inputs = generate_inputs(data, "byte_flips")
+	total_samples = []
+
+
+	for i in range(n):
+		if type(data) == dict:
+			sample = {}
+		elif type(data) == list:
+			sample = []
+		chose_sample(inputs, data, sample)
+		total_samples.append(sample)
+
+	return total_samples
+
 if __name__ == "__main__":
 	data = {
     	"len": 12,
     	"input": "AAAABBBBCCCC",
     	"more_data": ["a", "bb"]
-	}
+	}#data from json1.txt
 
-	inputs = generate_inputs(data)
+	sample_inputs = generate_samples_byte_flips(data, 100)
 
-	if type(data) == dict:
-		sample = {}
-	elif type(data) == list:
-		sample = []
-	chose_sample(inputs, data, sample)
-
-	print(sample)
+	for i in sample_inputs:
+		print(i)
