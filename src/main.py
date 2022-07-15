@@ -26,13 +26,6 @@ if inputType == "json":
     mutated_inputs.append(fileJson.generate_samples_repeated_parts(input, 10))
 
 
-
-data = {
-        "len": 12,
-        "input": "AAAABBBBCCCC",
-        "more_data": ["a", "bb"]
-    }
-
 for i in mutated_inputs:
     for j in i:
         try:
