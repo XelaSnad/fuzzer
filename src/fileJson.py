@@ -29,7 +29,23 @@ def byte_flip_str(string, l, index):
 	l.append(byte_flip_str(new, l, index + 1))
 
 
-def generate_inputs(data, method, max_repeat_time = None):
+
+def repeated_parts(string, l, max, length, start, end, count):
+	if count == length:
+		return string + string[start: end] * random.randint(0, max)
+	l.append(repeated_parts(string, l, max, length, start, end, count + 1))
+	l.append(repeated_parts(string, l, max, length, start, end + 1, count + 1))
+	l.append(repeated_parts(string, l, max, length, start + 1, end + 1, count + 1))
+
+def repeated_parts_str(element, temp, max_repeat_time):
+	length = len(element)
+	repeated_parts(element, temp, max_repeat_time, length, 0, 1, 0)
+
+
+
+
+
+def generate_inputs(data, method, max_repeat_time = 10):
 	inputs = []
 	for i in data:
 		temp = []
@@ -42,11 +58,18 @@ def generate_inputs(data, method, max_repeat_time = None):
 		if type(element) == int or type(element) == float:
 			if method == "byte_flips":
 				byte_flip_int(element, temp, 0)
+			elif method == "repeated_parts":
+				assert(max_repeat_time != None)
+				temp.append(element * random.randint(0, max_repeat_time))
+
 		elif type(element) == dict or type(element) == list:
 			temp = generate_inputs(element, method)
 		elif type(element) == str:
 			if method == "byte_flips":
 				byte_flip_str(element, temp, 0)
+			elif method == "repeated_parts":
+				assert(max_repeat_time != None)
+				repeated_parts_str(element, temp, max_repeat_time)
 
 		new = [i for i in temp if i != None]
 		inputs.append(new)
@@ -102,6 +125,23 @@ def generate_samples_byte_flips(data, n):
 
 	return total_samples
 
+def generate_samples_repeated_parts(data, n):
+	inputs = generate_inputs(data, "repeated_parts")
+	total_samples = []
+
+
+	for i in range(n):
+		if type(data) == dict:
+			sample = {}
+		elif type(data) == list:
+			sample = []
+		chose_sample(inputs, data, sample)
+		total_samples.append(sample)
+
+	return total_samples
+
+
+
 if __name__ == "__main__":
 	data = {
     	"len": 12,
@@ -109,7 +149,9 @@ if __name__ == "__main__":
     	"more_data": ["a", "bb"]
 	}#data from json1.txt
 
-	sample_inputs = generate_samples_byte_flips(data, 100)
+	#sample_inputs = generate_samples_byte_flips(data, 100)
 
+	sample_inputs = generate_samples_repeated_parts(data, 10)
+	
 	for i in sample_inputs:
 		print(i)
