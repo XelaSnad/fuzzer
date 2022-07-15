@@ -149,9 +149,9 @@ if __name__ == "__main__":
     	"more_data": ["a", "bb"]
 	}#data from json1.txt
 
-	#sample_inputs = generate_samples_byte_flips(data, 100)
+	sample_inputs = generate_samples_byte_flips(data, 100)
 
-	sample_inputs = generate_samples_repeated_parts(data, 10)
+	#sample_inputs = generate_samples_repeated_parts(data, 10)
 	
 	for i in sample_inputs:
 		print(i)
