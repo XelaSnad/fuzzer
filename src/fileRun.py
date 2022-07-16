@@ -13,18 +13,19 @@ def findInputs(binary, input, inputType):
     # set an upper limit of 20 runs for now
     max_runs = 20
     bad_input = ""
+
     if inputType == "json":
-            # generate inputs
 
-        print(input)
+        # generate inputs
         gen_input = generate_samples_byte_flips(json.loads(input), max_runs)
-
+    
         for i in range(max_runs):
+            # create a temporary file with the generated input
+            temp = NamedTemporaryFile()
+            temp.write(json.dumps(gen_input[i]).encode("utf-8"))
+            print(temp.name)
+            print(f"trying: \n {gen_input[i]}")
             try:
-                temp = NamedTemporaryFile()
-                temp.write(json.dumps(gen_input[i]).encode("utf-8"))
-                print(temp.name)
-                print(f"trying: \n {gen_input[i]}")
                 # test to see if input causes an error. currently all errors, including non memory errors will pass
                 check_call("cat " + temp.name + " | " + os.getcwd() +"/" + binary, stdout=DEVNULL, shell=True)
             except CalledProcessError as e:
@@ -39,6 +40,7 @@ def findInputs(binary, input, inputType):
             print(f"attempt {i}")
             gen_input = randomValueChange((randomValueChange(input)))
 
+            # create a temporary file with the generated input
             temp = NamedTemporaryFile()
             temp.write(gen_input.encode("ISO-8859-1"))
             print(temp.name)
@@ -77,7 +79,7 @@ def findInputs(binary, input, inputType):
 
 
 if __name__ == '__main__':
-    print(fileExecuteText("../binaries/csv1", "headermust,stay,intact\na,b,c,S\ne,f,g,ecr\ni,j,k,et"))
+    #print(fileExecuteText("../binaries/csv1", "headermust,stay,intact\na,b,c,S\ne,f,g,ecr\ni,j,k,et"))
 
     
 
