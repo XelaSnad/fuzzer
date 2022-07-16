@@ -26,7 +26,7 @@ def findInputs(binary, input, inputType):
                 print(temp.name)
                 print(f"trying: \n {gen_input[i]}")
                 # test to see if input causes an error. currently all errors, including non memory errors will pass
-                check_call("cat " + "~" + temp.name + " | " + os.getcwd() +"/" + binary, stdout=DEVNULL, shell=True)
+                check_call("cat " + temp.name + " | " + os.getcwd() +"/" + binary, stdout=DEVNULL, shell=True)
             except CalledProcessError as e:
                 print(f"bad input found, produces the following error:\n {e}")
                 bad_input = gen_input
@@ -46,7 +46,7 @@ def findInputs(binary, input, inputType):
 
             try:
                 # test to see if input causes an error. currently all errors, including non memory errors will pass
-                check_call("cat " + "~" + temp.name + " | " + os.getcwd() +"/" + binary, stdout=DEVNULL, shell=True)
+                check_call("cat " + temp.name + " | " + os.getcwd() +"/" + binary, stdout=DEVNULL, shell=True)
             except CalledProcessError as e:
                 print(f"bad input found, produces the following error:\n {e}")
                 bad_input = gen_input
