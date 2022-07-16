@@ -37,9 +37,10 @@ The split [1] is not "" means that the second line is not empty. Essentially say
 '''
 
 def validateCSV(string):
-    if len(string.split("\n")) > 1 and ((string.split("\n"))[1] != ""):
+    lines = string.split("\n")
+    if len(lines) > 1 and lines[1] != "":
         try:
-            dialect = csv.Sniffer().sniff(string)
+            dialect = csv.Sniffer().sniff(lines[1])
         except csv.Error:
             return False
         return True

@@ -1,4 +1,4 @@
-from fileRun import fileExecuteText
+#from fileRun import fileExecuteText
 import random
 
 '''
@@ -47,4 +47,4 @@ if __name__ == '__main__':
     string = "header,must,stay,intact\na,b,c,S\ne,f,g,ecr\ni,j,k,et"
     value = randomValueChange((randomValueChange(string)))
 
-    print(fileExecuteText("../binaries/csv1", value * random.randint(1,20)))
+    #print(fileExecuteText("../binaries/csv1", value * random.randint(1,20)))
