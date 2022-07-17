@@ -20,16 +20,25 @@ inputType = findInputType(input)
 
 mutated_inputs = []
 
+
+
+
 if inputType == "json":
     input = json.loads(input)
     mutated_inputs.append(fileJson.generate_samples_byte_flips(input, 10))
     mutated_inputs.append(fileJson.generate_samples_repeated_parts(input, 10))
 
 
+
 for i in mutated_inputs:
     for j in i:
+
+        print("\n")
         try:
+
             p = subprocess.run([binary], input = json.dumps(j).encode('utf-8'), check = True)
         except subprocess.CalledProcessError as e:
             print(j)
             print(str(e))
+
+        print("\n")
