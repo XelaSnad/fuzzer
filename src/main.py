@@ -32,4 +32,4 @@ for i in mutated_inputs:
             p = subprocess.run([binary], input = json.dumps(j).encode('utf-8'), check = True)
         except subprocess.CalledProcessError as e:
             print(j)
-            print(e.output)
+            print(str(e))
