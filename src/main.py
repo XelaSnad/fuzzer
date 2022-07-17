@@ -1,17 +1,16 @@
-import sys
-import subprocess
+from sys import argv, exit
 
 from fileTypes import *
 
 from fileRun import findInputs
 
 
-if len(sys.argv) != 3: 
+if len(argv) != 3: 
     print("Number of arguments incorrect, this program requires sample input and a binary.")
-    sys.exit(0)
+    exit(0)
 
-binaryInput = sys.argv[1]
-binary = sys.argv[2] 
+binary = argv[1] 
+binaryInput = argv[2]
 
 with open(binaryInput, "r", encoding="ISO-8859-1") as file:
     input = file.read()

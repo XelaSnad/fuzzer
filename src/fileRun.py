@@ -1,11 +1,9 @@
-from subprocess import *
-from sys import stdout
-from tempfile import NamedTemporaryFile, tempdir
-import os
-import json
+from subprocess import check_call, CalledProcessError, DEVNULL
+from tempfile import NamedTemporaryFile
+from json import dumps, loads
 
 from fileCsv import randomValueChange
-from fileJson import generate_samples_byte_flips, generate_samples_repeated_parts
+from fileJson import generate_samples_repeated_parts
 
 # repeatedly generates inputs and tests them until one is found that crashes the given binary
 def findInputs(binary, input, inputType):
@@ -18,19 +16,19 @@ def findInputs(binary, input, inputType):
 
         # generate inputs
         #gen_input = generate_samples_byte_flips(json.loads(input), max_runs)
-        gen_input = generate_samples_repeated_parts(json.loads(input), max_runs)
+        gen_input = generate_samples_repeated_parts(loads(input), max_runs)
         for i in range(max_runs):
             print(f"attempt {i}")
             # create a temporary file with the generated input
             temp = NamedTemporaryFile()
-            temp.write(json.dumps(gen_input[i]).encode("utf-8"))
+            temp.write(dumps(gen_input[i]).encode("utf-8"))
             temp.seek(0)
             try:
                 # test to see if input causes an error. currently all errors, including non memory errors will pass
                 check_call("cat " + temp.name + " | ./" + binary, stdout=DEVNULL, shell=True)
             except CalledProcessError as e:
                 print(f"bad input found, produces the following error:\n {e}")
-                bad_input = json.dumps(gen_input[i])
+                bad_input = dumps(gen_input[i])
                 break
 
     elif inputType == "csv":

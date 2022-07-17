@@ -1,5 +1,4 @@
-import json
-import random
+from random import randint
 def byte_flip_int(num, l, index):
 	
 	if index == 7:
@@ -32,7 +31,7 @@ def byte_flip_str(string, l, index):
 
 def repeated_parts(string, l, max, length, start, end, count):
 	if count == length:
-		return string + string[start: end] * random.randint(0, max)
+		return string + string[start: end] * randint(0, max)
 	l.append(repeated_parts(string, l, max, length, start, end, count + 1))
 	l.append(repeated_parts(string, l, max, length, start, end + 1, count + 1))
 	l.append(repeated_parts(string, l, max, length, start + 1, end + 1, count + 1))
@@ -60,7 +59,7 @@ def generate_inputs(data, method, max_repeat_time = 10):
 				byte_flip_int(element, temp, 0)
 			elif method == "repeated_parts":
 				assert(max_repeat_time != None)
-				temp.append(element * random.randint(0, max_repeat_time))
+				temp.append(element * randint(0, max_repeat_time))
 
 		elif type(element) == dict or type(element) == list:
 			temp = generate_inputs(element, method)
@@ -85,7 +84,7 @@ def chose_sample(inputs, data, sample):
 			element = data[i]
 
 		if type(element) == int or type(element) == float or type(element) == str:
-			n = inputs[index][random.randint(0,len(inputs[index]) - 1)]
+			n = inputs[index][randint(0,len(inputs[index]) - 1)]
 			if type(data) == list:
 				sample.append(n)
 			elif type(data) == dict:
