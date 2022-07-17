@@ -10,8 +10,8 @@ from fileJson import generate_samples_byte_flips, generate_samples_repeated_part
 # repeatedly generates inputs and tests them until one is found that crashes the given binary
 def findInputs(binary, input, inputType):
 
-    # set an upper limit of 20 runs for now
-    max_runs = 20
+    # set an upper limit of 1000 runs for now
+    max_runs = 1000
     bad_input = ""
 
     if inputType == "json":
@@ -20,12 +20,11 @@ def findInputs(binary, input, inputType):
         #gen_input = generate_samples_byte_flips(json.loads(input), max_runs)
         gen_input = generate_samples_repeated_parts(json.loads(input), max_runs)
         for i in range(max_runs):
+            print(f"attempt {i}")
             # create a temporary file with the generated input
             temp = NamedTemporaryFile()
             temp.write(json.dumps(gen_input[i]).encode("utf-8"))
             temp.seek(0)
-            print(temp.name)
-            print(f"trying: \n {gen_input[i]}")
             try:
                 # test to see if input causes an error. currently all errors, including non memory errors will pass
                 check_call("cat " + temp.name + " | ./" + binary, stdout=DEVNULL, shell=True)
@@ -39,14 +38,12 @@ def findInputs(binary, input, inputType):
         for i in range(max_runs):
             # generate an input
             print(f"attempt {i}")
-            gen_input = randomValueChange((randomValueChange(input)))
+            gen_input = randomValueChange((randomValueChange(input))) * 20
 
             # create a temporary file with the generated input
             temp = NamedTemporaryFile()
             temp.write(gen_input.encode("ISO-8859-1"))
             temp.seek(0)
-            print(temp.name)
-            print(f"trying: \n {gen_input}")
 
             try:
                 # test to see if input causes an error. currently all errors, including non memory errors will pass
