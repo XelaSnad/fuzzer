@@ -1,5 +1,5 @@
 # COMP6447 Major Project
-## Group Name
+## Trivial Fuzzer
 
 ### About
 Fuzzing is a system testing process with the goal of checking a program for bugs that can be exploited by user input. This is done by automatically feeding semi-random data into the program's input and running it repeatedly with added variations to the input data until an error is found; alerting the user to the error as well as the data that caused it. If no errors are found, the fuzzer returns with an empty result.
