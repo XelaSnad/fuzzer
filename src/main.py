@@ -35,3 +35,4 @@ f = open("bad.txt", "w")
 f.write(mutated_input)
 
 f.close()
+print("bad.txt updated with bad input")

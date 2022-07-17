@@ -5,7 +5,7 @@ import os
 import json
 
 from fileCsv import randomValueChange
-from fileJson import generate_samples_byte_flips
+from fileJson import generate_samples_byte_flips, generate_samples_repeated_parts
 
 # repeatedly generates inputs and tests them until one is found that crashes the given binary
 def findInputs(binary, input, inputType):
@@ -17,20 +17,21 @@ def findInputs(binary, input, inputType):
     if inputType == "json":
 
         # generate inputs
-        gen_input = generate_samples_byte_flips(json.loads(input), max_runs)
-    
+        #gen_input = generate_samples_byte_flips(json.loads(input), max_runs)
+        gen_input = generate_samples_repeated_parts(json.loads(input), max_runs)
         for i in range(max_runs):
             # create a temporary file with the generated input
             temp = NamedTemporaryFile()
             temp.write(json.dumps(gen_input[i]).encode("utf-8"))
+            temp.seek(0)
             print(temp.name)
             print(f"trying: \n {gen_input[i]}")
             try:
                 # test to see if input causes an error. currently all errors, including non memory errors will pass
-                check_call("cat " + temp.name + " | " + os.getcwd() +"/" + binary, stdout=DEVNULL, shell=True)
+                check_call("cat " + temp.name + " | ./" + binary, stdout=DEVNULL, shell=True)
             except CalledProcessError as e:
                 print(f"bad input found, produces the following error:\n {e}")
-                bad_input = gen_input
+                bad_input = json.dumps(gen_input[i])
                 break
 
     elif inputType == "csv":
@@ -43,21 +44,32 @@ def findInputs(binary, input, inputType):
             # create a temporary file with the generated input
             temp = NamedTemporaryFile()
             temp.write(gen_input.encode("ISO-8859-1"))
+            temp.seek(0)
             print(temp.name)
             print(f"trying: \n {gen_input}")
 
             try:
                 # test to see if input causes an error. currently all errors, including non memory errors will pass
-                check_call("cat " + temp.name + " | " + os.getcwd() +"/" + binary, stdout=DEVNULL, shell=True)
+                check_call("cat " + temp.name + " | ./" + binary, shell=True)
+                temp.close()
             except CalledProcessError as e:
                 print(f"bad input found, produces the following error:\n {e}")
                 bad_input = gen_input
+                temp.close()
                 break
 
     return bad_input
     
-
-
+# tests the generated file against the binary
+def try_input(temp, binary):
+    try:
+        print("hi")
+        # test to see if input causes an error. currently all errors, including non memory errors will pass
+        check_call("cat " + temp.name + " | ./" + binary, shell=True)
+        temp.close()
+    except CalledProcessError as e:
+        print(f"bad input found, produces the following error:\n {e}")
+        temp.close()
 
 
 # def fileExecuteText(program, text) :
@@ -79,7 +91,11 @@ def findInputs(binary, input, inputType):
 
 
 if __name__ == '__main__':
-    #print(fileExecuteText("../binaries/csv1", "headermust,stay,intact\na,b,c,S\ne,f,g,ecr\ni,j,k,et"))
+    gen_input = "header,must,stay,inasdtact\na,b,c,S\ne,f,g,ecr\ni,j,k,et"
+    temp = NamedTemporaryFile()
+    temp.write(gen_input.encode("ISO-8859-1"))
+    temp.seek(0)
+    try_input(temp, "csv1")
 
     
 
