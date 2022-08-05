@@ -1,0 +1,21 @@
+
+{'len': 4278251523, 'input': '¾¾¾¾½½½½CCCC', 'more_data': ['a', '\x9d\x9d']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 4278255372, 'input': '¾¾¾¾BBBBCCCC', 'more_data': ['a', '\x9d\x9d']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 4294905852, 'input': '¾¾¾¾½½½½¼¼¼¼', 'more_data': ['a', '\x9d\x9d']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 4027576572, 'input': '¾¾¾¾½½½½CCCC', 'more_data': ['a', '\x9d\x9d']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 4293984252, 'input': '¾¾¾¾½½½½CCCC', 'more_data': ['\x9e', 'bb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 4043304972, 'input': 'AAAABBBB¼¼¼¼', 'more_data': ['\x9e', '\x9d\x9d']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 1048323, 'input': '¾¾¾¾½½½½CCCC', 'more_data': ['\x9e', '\x9d\x9d']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 268431603, 'input': '¾¾¾¾BBBBCCCC', 'more_data': ['\x9e', '\x9d\x9d']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 15732492, 'input': '¾¾¾¾BBBBCCCC', 'more_data': ['a', 'bb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 4026535923, 'input': 'AAAA½½½½¼¼¼¼', 'more_data': ['\x9e', '\x9d\x9d']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCCBBBCCBBBCC', 'more_data': ['aaaa', 'bb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCCABBBBABBBBABBBB', 'more_data': ['a', 'bbb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCCABBBBCABBBBCABBBBCABBBBCABBBBCABBBBCABBBBCABBBBCABBBBC', 'more_data': ['a', 'bbbbbbbbbbbbbb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCCBBBCCBBBCC', 'more_data': ['a', 'bbbbbb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCCBBBBCC', 'more_data': ['a', 'bb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCC', 'more_data': ['aaaa', 'bbbb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCCAABBBBCCAABBBBCCAABBBBCCAABBBBCCAABBBBCCAABBBBCCAABBBBCCAABBBBCCAABBBBCC', 'more_data': ['a', 'bbbbbb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCCAABBBBAABBBBAABBBBAABBBBAABBBBAABBBBAABBBBAABBBBAABBBBAABBBB', 'more_data': ['aaaaaaaa', 'bbbbbb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCCBBCCCCBBCCCCBBCCCCBBCCCCBBCCCCBBCCCCBBCCCCBBCCCC', 'more_data': ['aaaa', 'bbbbbbbb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.
+{'len': 96, 'input': 'AAAABBBBCCCC', 'more_data': ['a', 'bbbbbbbbbbbbbbbbbbbbbb']}Command '['../binaries/json1']' died with <Signals.SIGSEGV: 11>.

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from fileTypes import *
 import fileJson
 import sys
@@ -28,17 +29,15 @@ if inputType == "json":
     mutated_inputs.append(fileJson.generate_samples_byte_flips(input, 10))
     mutated_inputs.append(fileJson.generate_samples_repeated_parts(input, 10))
 
+    f = open("bad.txt", "w")
 
+    for i in mutated_inputs:
+        for j in i:
 
-for i in mutated_inputs:
-    for j in i:
+            f.write("\n")
+            try:
 
-        print("\n")
-        try:
-
-            p = subprocess.run([binary], input = json.dumps(j).encode('utf-8'), check = True)
-        except subprocess.CalledProcessError as e:
-            print(j)
-            print(str(e))
-
-        print("\n")
+                p = subprocess.run([binary], stdout = subprocess.PIPE,input = json.dumps(j).encode('utf-8'), check = True)
+            except subprocess.CalledProcessError as e:
+                f.write(str(j))
+                f.write(str(e))
