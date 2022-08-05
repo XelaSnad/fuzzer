@@ -1,16 +1,25 @@
 def generate_random_plain_text(string):
 	l = string.split("\n")
+	print(l)
 	random = []
 	for i in l:
 		if i == "":
 			continue
 
+		new = []
 		try:
 			data = int(i)
+			byte_flips(data, new, 0, 4)
 		except:
 			data = i
+			byte_flips(data, new, 0, len(data))
 
-		new = []
+		random.append(new)
+
+	return random
+
+
+		
 
 
 
@@ -37,9 +46,15 @@ def byte_flips(data, new, count, max_count):
 
 		new.append(new_str)
 
-		byte_flips(data ^ mask, new, count + 1, max_count)
 		byte_flips(data, new, count + 1, max_count)
+		byte_flips(new_str, new, count + 1, max_count)
 
 
 
 
+if __name__ == "__main__":
+
+	string = "trivial\n2\n" #plaintext2.txt
+	l = generate_random_plain_text(string)
+	for i in l:
+		print(i)
