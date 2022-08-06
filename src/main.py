@@ -1,38 +1,30 @@
+'''
+    This is the main function nice
+'''
+#!/usr/bin/env python3
 import sys
-import subprocess
+from FileIdentifier import FileIdentifier
+from Runner.ProgramRunner import ProgramRunner
+from Fuzzer.FuzzerFactory import FuzzerFactory
 
-from fileTypes import *
+INPUT_TYPE = "?"
 
-from fileRun import findInputs
-
-
-if len(sys.argv) != 3: 
+if len(sys.argv) != 3:
     print("Number of arguments incorrect, this program requires sample input and a binary.")
     sys.exit(0)
 
 binaryInput = sys.argv[1]
-binary = sys.argv[2] 
+binary = sys.argv[2]
 
 with open(binaryInput, "r", encoding="ISO-8859-1") as file:
     input = file.read()
 
-inputType = findInputType(input)
-print(f"{inputType} file detected")
+typeFinder = FileIdentifier(input)
+INPUT_TYPE = typeFinder.identify_type()
 
-#We need to get jpg working and pdf and elf ability by the end of the project.
+runner = ProgramRunner(binary)
+factory = FuzzerFactory()
+fuzzer = factory.get_fuzzer(INPUT_TYPE, [input]*3, 0, 3)
+for i in range(0,12):
+    print(runner.run(fuzzer.fuzz()))
 
-# for now just looks for the first input that will crash
-mutated_input = ""
-
-mutated_input = findInputs(binary, input, inputType)
-
-if mutated_input == "":
-    print("no input found")
-    exit()
-
-f = open("bad.txt", "w")
-
-f.write(mutated_input)
-
-f.close()
-print("bad.txt updated with bad input")
