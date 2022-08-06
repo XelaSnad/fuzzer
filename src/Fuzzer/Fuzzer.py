@@ -20,8 +20,8 @@ class Fuzzer:
     def run(self, runner: Runner = Runner()) \
             -> Tuple[subprocess.CompletedProcess, Outcome]:
         ''' Runs a runner using our fuzzy input '''
-
+        return runner.run(self.fuzz())
     def runs(self, runner: Runner = PrintRunner(), trials: int = 10) \
             -> List[Tuple[subprocess.CompletedProcess, Outcome]]:
         '''Runs runner with the fuzzy input for as many trials there are times'''
-
+        return [self.run(runner) for i in range(trials)]

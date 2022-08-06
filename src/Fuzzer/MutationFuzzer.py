@@ -1,5 +1,7 @@
 from Fuzzer.Fuzzer import Fuzzer
 from typing import Dict, Tuple, Union, List, Any
+from random import *
+
 
 class MutationFuzzer(Fuzzer):
     def __init__(self, seed: List[str],
@@ -22,15 +24,46 @@ class MutationFuzzer(Fuzzer):
         self.population = self.seed
         self.seed_index = 0
 
+    def byte_flip(self, inp: str) -> str:
+        bytes_obj = inp.encode('ISO-8859-1')
+        index_len = len(bytes_obj) - 1
+        index = randint(0, index_len)
+        bytes_obj = list(bytes_obj)
+        bytes_obj[index] = bytes_obj[index] ^ 0xff
+        bytes_obj = bytes(bytes_obj)
+        return bytes_obj.decode('ISO-8859-1')
+
+    def bit_flip(self, inp: str) -> str:
+        bytes_obj = inp.encode('ISO-8859-1')
+        index_len = len(bytes_obj) - 1
+        index = randint(0, index_len)
+        byte = bytes_obj[index]
+        randbitindex = randint(0, 7)
+        byte = format(byte, '08b')
+        byte = list(byte)
+
+        if byte[randbitindex] == '0':
+            byte[randbitindex] = 1
+        else:
+            byte[randbitindex] = 0
+        
+        byte = int("".join(str(x) for x in byte), 2)
+        
+        bytes_obj = list(bytes_obj)
+        bytes_obj[index] = byte
+        bytes_obj = bytes(bytes_obj)
+
+        return bytes_obj.decode('ISO-8859-1')
+
 class MutationFuzzer(MutationFuzzer):
-    def mutate(sel, inp:str) -> str:
-        return mutate(inp)
+    def mutate(self, inp:str) -> str:
+        return self.byte_flip(inp)
 
 class MutationFuzzer(MutationFuzzer):
     def create_candidate(self) -> str:
         """Create a new candidate by mutating a population member"""
-        candidate = random.choice(self.population)
-        trials = random.randint(self.min_mutations, self.max_mutations)
+        candidate = choice(self.population)
+        trials = randint(self.min_mutations, self.max_mutations)
         for i in range(trials):
             candidate = self.mutate(candidate)
         return candidate
