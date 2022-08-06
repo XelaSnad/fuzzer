@@ -25,13 +25,14 @@ def jpeg_byte_flip(data, l, index, count, max_level_recursion, size):
 
 
 
-	new_index = randint(0, size)
+	new_index1 = randint(0, size)
+	new_index2 = randint(0, size)
 	#print(f"new_index = {new_index}, index = {index}, old_byte = {lol}, new = {byte}")
 	
 
 
-	jpeg_byte_flip(new, l, new_index, count + 1, max_level_recursion, size)
-	jpeg_byte_flip(data, l, new_index, count + 1, max_level_recursion, size)
+	jpeg_byte_flip(new, l, new_index1, count + 1, max_level_recursion, size)
+	jpeg_byte_flip(data, l, new_index2, count + 1, max_level_recursion, size)
 
 
 if __name__ == "__main__":
