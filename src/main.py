@@ -25,6 +25,5 @@ INPUT_TYPE = typeFinder.identify_type()
 runner = ProgramRunner(binary)
 factory = FuzzerFactory()
 fuzzer = factory.get_fuzzer(INPUT_TYPE, [input]*3, 0, 3)
-for i in range(0,12):
-    print(runner.run(fuzzer.fuzz()))
+print(fuzzer.runs(runner))
 
