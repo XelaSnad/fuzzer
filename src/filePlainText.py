@@ -15,7 +15,7 @@ def generate_random_plain_text(string, n):
 			data = i
 			temp = []
 			byte_flips(data, temp, 0, len(data))
-			repeated_parts(data, temp, 10, len(data), 0, 1, 0)
+			repeated_parts(data, temp, 5, len(data), 0, 1, 0)
 			new = [j for j in temp if j != None]
 
 		random.append(new)
@@ -24,7 +24,7 @@ def generate_random_plain_text(string, n):
 	for i in range(n):
 		string = ""
 		for i in random:
-			random_input = i[randint(0, len(i))]
+			random_input = i[randint(0, len(i) - 1)]
 
 			if type(random_input) != str:
 				random_input = str(random_input)
@@ -75,6 +75,6 @@ def byte_flips(data, new, count, max_count):
 if __name__ == "__main__":
 
 	string = "trivial\n2\n" #plaintext2.txt
-	l = generate_random_plain_text(string, 10)
+	l = generate_random_plain_text(string, 1000)
 	for i in l:
 		print(i)
