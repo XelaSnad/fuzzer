@@ -1,5 +1,5 @@
-from fileRun import fileExecuteText
-import random
+#from fileRun import fileExecuteText
+from random import randint
 
 '''
 Deconstructs a CSV string into a list of comma seperated values 
@@ -28,14 +28,14 @@ def randomValueChange(sample):
     row = 0
     col = 0
     result = ""
-    row = random.randint(0, (len(strings) - 1))
+    row = randint(0, (len(strings) - 1))
     for idx1, string in enumerate(strings):
         if idx1 == row:
             values = string.split(",")
-            col = random.randint(0, (len(values) - 1))
+            col = randint(0, (len(values) - 1))
             for idx2, value in enumerate(values):
                 if idx2 == col:
-                    values[col] = "A" * random.randint(20, 100)
+                    values[col] = "A" * randint(20, 100)
                     result = ",".join(values)
                     break
     strings[row] = result
@@ -47,4 +47,4 @@ if __name__ == '__main__':
     string = "header,must,stay,intact\na,b,c,S\ne,f,g,ecr\ni,j,k,et"
     value = randomValueChange((randomValueChange(string)))
 
-    print(fileExecuteText("../binaries/csv1", value * random.randint(1,20)))
+    #print(fileExecuteText("../binaries/csv1", value * randint(1,20)))
