@@ -1,4 +1,5 @@
-def generate_random_plain_text(string):
+from random  import randint
+def generate_random_plain_text(string, n):
 	l = string.split("\n")
 	print(l)
 	random = []
@@ -12,18 +13,37 @@ def generate_random_plain_text(string):
 			byte_flips(data, new, 0, 4)
 		except:
 			data = i
-			byte_flips(data, new, 0, len(data))
+			temp = []
+			byte_flips(data, temp, 0, len(data))
+			repeated_parts(data, temp, 10, len(data), 0, 1, 0)
+			new = [j for j in temp if j != None]
 
 		random.append(new)
 
-	return random
+	inputs = []
+	for i in range(n):
+		string = ""
+		for i in random:
+			random_input = i[randint(0, len(i))]
+
+			if type(random_input) != str:
+				random_input = str(random_input)
+
+			string += random_input
+			string += "\n"
+
+		inputs.append(string)
+
+	return inputs
 
 
-		
 
-
-
-
+def repeated_parts(string, l, max, length, start, end, count):
+	if count == length:
+		return string + string[start: end] * randint(1, max)
+	l.append(repeated_parts(string, l, max, length, start, end, count + 1))
+	l.append(repeated_parts(string, l, max, length, start, end + 1, count + 1))
+	l.append(repeated_parts(string, l, max, length, start + 1, end + 1, count + 1))
 
 def byte_flips(data, new, count, max_count):
 	if count == max_count:
@@ -55,6 +75,6 @@ def byte_flips(data, new, count, max_count):
 if __name__ == "__main__":
 
 	string = "trivial\n2\n" #plaintext2.txt
-	l = generate_random_plain_text(string)
+	l = generate_random_plain_text(string, 10)
 	for i in l:
 		print(i)
