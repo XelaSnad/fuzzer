@@ -6,6 +6,7 @@ import json
 
 from fileCsv import randomValueChange
 from fileJson import generate_samples_byte_flips, generate_samples_repeated_parts
+from fileJpeg import mutate_jpeg
 
 # repeatedly generates inputs and tests them until one is found that crashes the given binary
 def findInputs(binary, input, inputType):
@@ -55,6 +56,24 @@ def findInputs(binary, input, inputType):
                 temp.close()
                 break
 
+    elif inputType == "jpg":
+        gen_input = mutate_jpeg(temp, 10)
+
+        for i in range(len(gen_input)):
+            print(f"attempt {i}")
+            temp = NamedTemporaryFile()
+            temp.write(gen_input[i])
+            temp.seek(0)
+            
+            try:
+                # test to see if input causes an error. currently all errors, including non memory errors will pass
+                check_call("cat " + temp.name + " | ./" + binary, shell=True)
+                temp.close()
+            except CalledProcessError as e:
+                print(f"bad input found, produces the following error:\n {e}")
+                bad_input = gen_input
+                temp.close()
+                break
     return bad_input
     
 # tests the generated file against the binary

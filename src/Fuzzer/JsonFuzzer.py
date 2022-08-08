@@ -1,13 +1,11 @@
 from Fuzzer.MutationFuzzer import MutationFuzzer
 from typing import Dict, Tuple, Union, List, Any
-from random import randint
+from random import randint, getrandbits
 import json
 
 class JsonFuzzer(MutationFuzzer):
     def init(self, seed: List[str], min_mutations: int = 2, max_mutations: int = 10) -> None:
         super().__init__(self, seed, min_mutations, max_mutations)
-<<<<<<< Updated upstream
-=======
 
     def mutate(self, inp:str) -> str:
 
@@ -24,6 +22,7 @@ class JsonFuzzer(MutationFuzzer):
 
     def handleReccursion(self, data: Any) -> Any:
         '''The recurrsion function that will allow us to touch the entire json file and act upon it.'''
+
 
         for idx, i in enumerate(data):
             byte_or_repeat = bool(getrandbits(1)) #choses if we will byte flip or repeat
@@ -48,10 +47,8 @@ class JsonFuzzer(MutationFuzzer):
 
             if type(data) == dict:
                 data[i] = elem
-            elif type(data) == list:
+            elif type(data) == list
                 data[idx] = elem
 
         return data
 
-
->>>>>>> Stashed changes
