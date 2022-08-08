@@ -6,6 +6,8 @@ class CsvFuzzer(MutationFuzzer):
     def init(self, seed: List[str], min_mutations: int = 2, max_mutations: int = 10) -> None:
         super().__init__(self, seed, min_mutations, max_mutations)
 
+    
+    
     def deconstructCsv(inp: str) -> List:
         '''
         Deconstructs a CSV string into a list of those comma seperated values.
