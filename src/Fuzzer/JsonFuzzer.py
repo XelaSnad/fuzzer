@@ -6,8 +6,7 @@ import json
 class JsonFuzzer(MutationFuzzer):
     def init(self, seed: List[str], min_mutations: int = 2, max_mutations: int = 10) -> None:
         super().__init__(self, seed, min_mutations, max_mutations)
-<<<<<<< Updated upstream
-=======
+
 
     def mutate(self, inp:str) -> str:
 
@@ -54,4 +53,3 @@ class JsonFuzzer(MutationFuzzer):
         return data
 
 
->>>>>>> Stashed changes

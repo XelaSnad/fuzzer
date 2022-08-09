@@ -55,7 +55,7 @@ class MutationFuzzer(Fuzzer):
 
         return bytes_obj.decode('ISO-8859-1')
     
-    def repeated_parts(self, inp: Any, repeat_times: int = 10) -> Any:
+    def repeated_parts(self, inp: Any, repeat_times: int = 100) -> Any:
         
         return inp*randint(0, repeat_times)
         
