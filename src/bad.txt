@@ -1,3 +1,17 @@
-0,0
-0,0
-0,0
+<html>
+    <head>
+        <link href="%x%n" />
+    </head>
+    <body>
+        <h1>%x%n</h1>
+    </body>
+
+    <div id="%x%n">
+        <a href="%x%n">%x%n</a>
+    </div>
+
+
+    <tail>
+        <a href="%x%n">%x%n</a>
+    </tail>
+</html>

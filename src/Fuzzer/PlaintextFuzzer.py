@@ -19,7 +19,7 @@ class PlaintextFuzzer(MutationFuzzer):
             case "negative":
                 return "-1"
             case "large_positive":
-                return f"{10**55}"
+                return "{10**55}"
             case "large_negative":
                 return f"{-10**55}"
             case "null_terminator":

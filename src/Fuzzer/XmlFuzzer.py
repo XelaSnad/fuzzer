@@ -78,7 +78,6 @@ class XmlFuzzer(MutationFuzzer):
     
         
         string = ET.tostring(root).decode()
-        print(string)
         return string
         '''
 

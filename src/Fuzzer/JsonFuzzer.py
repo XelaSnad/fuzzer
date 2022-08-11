@@ -12,7 +12,6 @@ class JsonFuzzer(MutationFuzzer):
 
         jsonobject = json.loads(inp)
         for idx, data in enumerate(jsonobject):
-            print(self.getCurrentRule())
             match self.getCurrentRule():
                 case "overflow":
                     if type(jsonobject) == dict:

@@ -51,7 +51,6 @@ class CsvFuzzer(MutationFuzzer):
                 for idx2, value in enumerate(values):
                     values[idx2] = "A" * 100
                 strings[idx1] = ",".join(values)
-        print(strings)
         return strings
 
         
