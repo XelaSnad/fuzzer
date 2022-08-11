@@ -1,11 +1,10 @@
 # COMP6447 Major Project
-## Group Name
+## FuzzYourSocks OFF
 
 ### About
-Fuzzing is a system testing process with the goal of checking a program for bugs that can be exploited by user input. This is done by automatically feeding semi-random data into the program's input and running it repeatedly with added variations to the input data until an error is found; alerting the user to the error as well as the data that caused it. If no errors are found, the fuzzer returns with an empty result.
+In this last huddle we have only had Yukon and I(Alex) working on the project, the rest of the team has been pretty unresponsive in chat and have made little effort, even Yukon hasn't done too much.
 
-Our project consists of a basic implementation of a fuzzer, with the intention of using the fuzzer's output to exploit the data ourselves, rather than repairing the faulty program. 
-
+The new fuzzer has been completely re-designed with an object oriented style using a factory to figure out which file fuzzer to use depending on the file type, each fuzzer has a set of vulnerability type it looks for and then iterates through them until it reaches a crash.
 
 ### Constraints
 There are several limitations that must be placed on our fuzzer in order to gain maximal marks within the course. These constraints are as follows:
@@ -16,7 +15,7 @@ There are several limitations that must be placed on our fuzzer in order to gain
 4. The fuzzer's goal is to search for a change of expected state of the program. Some examples of unexpected states are:
    - Program crash
    - Invalid memory access or write
-   - Heap Use-After-Free (UAF)
+
 
 
 ### Assumptions
@@ -53,29 +52,43 @@ The fuzzer will throw an error if any of the following cases occur on program st
 4. Argument 2 is not a valid text file or cannot be read
 
 #### Preliminary Testing
-Once the fuzzer has determined the validity of its arguments, it will verify the file type of the text file. This is done through `src/fileTypes.py`, which parses the binary file into each specified format; if any format returns a valid result, the file type will be returned to `main.py`. If no valid result is returned, the text file will be treated as plaintext.
+Once the fuzzer has determined the validity of its arguments, it will verify the file type of the text file. This is done through `src/FileIdentifier.py`, which parses the binary file into each specified format; if any format returns a valid result, the file type will be returned to `main.py` to then be sent through the Fuzzer Factory to produce a fuzzer.
 
 #### Data Mutation
 The fuzzer then begins to formulate its data inputs to be used for testing.
 
-There are currently two steps taken to mutate the input data. First is through byte flipping, second is through repeated parts. Each fuzzer call will generate 10 input strings for each method and append them to an array to be parsed to the binary file. 
+Since last time we have removed the basic methodology of bit and byte flipping all though you could configure the project to re-enable such features but now our rules determine what goes on, the basic rules for csv for example are 
 
-For each method, the fuzzer must consider the basic input data in the text file. It will take each element of the text file, which could be in the format of a list or simply each byte of the file, then determine its type. If the elements are strings, integers, floats or any basic data type, it will mutate each element and add them to the output array. If the element is a dict type or an element of an array, it will recursively mutate each of these sub-elements in the same manner before adding them to the output string.
+- overflow_rows
+	Where a random row is chosen to be overflown with 100 or so A's
+- Overflow_values all values are overflown with 10000 A's
+- zero all values set to zero
+- positive all values set to 1
+- negative all values set to -1
+- large_postiive all values set to 1 * 10^55
+- Null Term all values set to null terminators
+- format all values set to %x%s
+- large_negative all values set to -1*10^55
 
-Byte-flipping is a recursive process that repeats either for every element of a string, or 7 times for a number type. For numbers, it will create an array of 254 elements with each element being a variation of the original number, the number with its bytes flipped, or None. For strings, the byte-flipper will return an array with the original string first, before returning variations of byte flips for each character in the string. All array elements are different, and some also equate to None.
+###
 
-The repeated parts method invokes larger mutations over strings. It will add to the output array a large list of variations of the string by using pointers variables to take subsets of one or more chars and repeating them a number of times (between 0 and 10) and appending them to the subset. For a number type, the repeated parts will add this number multiplied by a random integer between 1 and 10 to the output array.
-
-Following these steps, the fuzzer will create an output array of every potential mutation of the data given to it. Obviously, this array will be much too large to run our fuzzer in the appropriate time limitations; so to prevent the program from taking a lengthy execution time, the fuzzer will randomly select a sample of the output array to be passed to the binary file. 
-
-#### Run File
+### Run File
 With the sample output generated, the fuzzer can begin testing the binary files for an error. 
 
 The fuzzer will take each array element of the sample output and use it as input for the binaries, running it each time. Each time that the fuzzer is ran, it will add the outcome of each binary execution as well as the data parsed to it to its own array.
 
 This array will then be checked for any program outcomes that do not contain a 0, that is, any time the binary does not complete execution in its expected state. If any such error is found, the fuzzer will return to the user the error that was given at the time of execution, as well as the data which caused it. If no such error existed, the fuzzer will inform the user of this before it completes execution. 
 
-### Planned Improvements
-As of currently, the fuzzer is solely used to test on csv and json filetypes. The project members will continue their implementation of the fuzzer to run for all planned filetypes for the project's release.
+### Proudness
+I am definitely proud of the simplicity of this project enabled by the various classes used, it allowed me to limit redundancy that I feel could occur with such a project and although not related to course outlines definitely aided me in understnading oop concepts in general.
 
-Whilst the methods of data mutation are quite thorough, the project acknowledges the time complexity of mutation, particularly for larger data text files. The project members will explore ways to both cut down on the time complexity as well as focus the data mutation's methods towards an output with a higher chance of finding binary errors. 
+### Improvements
+There are the obvious improvements being able to hit all the vulns in the files, having all file types completed but alas this was too much for pretty much one team member to do. 
+
+If I were to have more time I would of focused on firstly re-enabling bit manipulations so that the test cases would hit that and also I wold want to add perhaps being able to choose your favoured method of fuzzing. 
+
+I would of liked to add harness functionality we currently tell you which rule caused the crash which can be helpful but it doesn't make it obvious if you don't understand the rules. 
+
+Another thing i'd of liked to have done better would of been to making the interaction between fuzzing and binary better being able to detect changes in the programs state i.e. code coverage knowing we are hitting a different part of the program than last time. 
+
+All though there is tones of areas for improvement I am pretty proud of the amount of code I got to build on my own.  
