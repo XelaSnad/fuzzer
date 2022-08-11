@@ -3,6 +3,7 @@ import subprocess
 from typing import Dict, Tuple, Union, List, Any
 
 Outcome = str
+inputs = str
 
 class ProgramRunner(Runner):
     '''tests a program with inputs'''
@@ -20,7 +21,7 @@ class ProgramRunner(Runner):
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True)
 
-    def run(self, inp: str = "") -> Tuple[subprocess.CompletedProcess, Outcome]:
+    def run(self, inp: str = "") -> Tuple[subprocess.CompletedProcess,inputs, Outcome]:
         '''Run the program with inp as input 
         Return test outcome based on result of 'subprocess.run()'''
         result = self.run_process(inp)
@@ -32,4 +33,6 @@ class ProgramRunner(Runner):
         else: 
             outcome = self.UNRESOLVED
 
-        return (result, outcome)
+
+        inputs = inp
+        return (result,inputs,outcome)

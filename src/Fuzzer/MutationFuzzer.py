@@ -4,7 +4,7 @@ from random import *
 
 
 class MutationFuzzer(Fuzzer):
-    def __init__(self, seed: List[str],
+    def __init__(self, seed: List[str], rules: List[str],
                 min_mutations: int = 2,
                 max_mutations: int = 10) -> None:
         '''
@@ -13,6 +13,7 @@ class MutationFuzzer(Fuzzer):
         min_mutations - the minimum number of mutations to apply
         max_mutations - the maximum number of mutations to apply
         '''
+        self.rules = rules
         self.seed = seed
         self.min_mutations = min_mutations
         self.max_mutations = max_mutations

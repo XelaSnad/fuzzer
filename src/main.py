@@ -22,8 +22,34 @@ with open(binaryInput, "r", encoding="ISO-8859-1") as file:
 typeFinder = FileIdentifier(input)
 INPUT_TYPE = typeFinder.identify_type()
 
+
+
 runner = ProgramRunner(binary)
 factory = FuzzerFactory()
 fuzzer = factory.get_fuzzer(INPUT_TYPE, [input]*3, 1, 4)
-print(fuzzer.runs(runner))
+
+mutated_input = ""
+
+for rule in fuzzer.getRule():
+    for triple in fuzzer.runs(rule, runner):
+        (results, inputs, outcome) = triple
+        if outcome == "FAIL":
+            mutated_input = inputs 
+        
+    if mutated_input != "":
+        break
+    fuzzer.reset()
+
+
+
+if mutated_input == "":
+    print("no input found")
+    exit()
+
+f = open("bad.txt", "w")
+
+f.write(mutated_input)
+
+f.close()
+print("bad.txt updated with bad input")
 

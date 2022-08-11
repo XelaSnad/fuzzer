@@ -3,6 +3,6 @@ from typing import Dict, Tuple, Union, List, Any
 
 
 class PlaintextFuzzer(MutationFuzzer):
-    def init(self, seed: List[str], min_mutations: int = 2, max_mutations: int = 10) -> None:
-        super().__init__(self, seed, min_mutations, max_mutations)
+    def init(self, seed: List[str], rules: List[str], min_mutations: int = 2, max_mutations: int = 10) -> None:
+        super().__init__(self, seed, rules,  min_mutations, max_mutations)
 

@@ -2,11 +2,14 @@ from Fuzzer.MutationFuzzer import MutationFuzzer
 from typing import Dict, Tuple, Union, List, Any
 import random
 
-class CsvFuzzer(MutationFuzzer):
-    def init(self, seed: List[str], min_mutations: int = 2, max_mutations: int = 10) -> None:
-        super().__init__(self, seed, min_mutations, max_mutations)
+class CsvFuzzer(MutationFuzzer): 
+    def init(self, seed: List[str], rules: List[str], min_mutations: int = 1, max_mutations: int = 5) -> None:
+        super().__init__(self, seed, rules, min_mutations, max_mutations)
     
     def mutate(self, inp:str) -> str:
+        print("------------")
+        print(self.getCurrentRule())
+        print("-----------")
         strings = self.deconstructCsv(inp)
         numlines = len(strings)
         numcommas = strings[0].count(",")
@@ -17,7 +20,7 @@ class CsvFuzzer(MutationFuzzer):
         stringcol[col] = self.repeated_parts(stringcol[col])
         strings[row] = ",".join(stringcol)
         print(self.constructCsv(strings))
-        return self.constructCsv(strings)
+        return self.constructCsv(strings)*random.randint(1,5)
 
     def deconstructCsv(self, string: str) -> List:
         '''

@@ -16,4 +16,4 @@ class Runner:
 
     def run(self, inp:str) -> Any:
         '''Run the runner with given input'''
-        return(inp, Runner.UNRESOLVED)
+        return(inp, inputs, Runner.UNRESOLVED)
