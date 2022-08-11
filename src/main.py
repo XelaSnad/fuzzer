@@ -31,6 +31,7 @@ fuzzer = factory.get_fuzzer(INPUT_TYPE, [input]*3, 1, 4)
 mutated_input = ""
 
 for rule in fuzzer.getRule():
+    print(rule)
     for triple in fuzzer.runs(rule, runner):
         (results, inputs, outcome) = triple
         if outcome == "FAIL":

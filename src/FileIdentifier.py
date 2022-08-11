@@ -45,6 +45,7 @@ def validateXml(string):
     except elementTree.ParseError:
         return False
     return True
+    
  
 
 def validateJpg(string):
@@ -61,7 +62,10 @@ def validateCSV(string):
             dialect = csv.Sniffer().sniff(lines[1])
         except csv.Error:
             return False
-        return True
-    return False
+        if "," in string:
+            return True
+        else:
+            return False
+
 
 
