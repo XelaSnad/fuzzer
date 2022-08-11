@@ -7,21 +7,54 @@ class CsvFuzzer(MutationFuzzer):
         super().__init__(self, seed, rules, min_mutations, max_mutations)
     
     def mutate(self, inp:str) -> str:
-        print("------------")
-        print(self.getCurrentRule())
-        print("-----------")
-        strings = self.deconstructCsv(inp)
-        numlines = len(strings)
-        numcommas = strings[0].count(",")
-
-        row, col = (random.randint(0, numlines - 1), random.randint(0, numcommas))
         
-        stringcol = strings[row].split(",")
-        stringcol[col] = self.repeated_parts(stringcol[col])
-        strings[row] = ",".join(stringcol)
-        print(self.constructCsv(strings))
-        return self.constructCsv(strings)*random.randint(1,5)
+        strings = self.deconstructCsv(inp)
+        
+        match self.getCurrentRule():
+            case "overflow_rows":
+                strings = self.handleRows(strings)
+                strings = self.constructCsv(strings)*3
+                strings = self.deconstructCsv(strings)
+            case "overflow_values":
+                strings = self.handleMutate(strings, "A"*10000)
+            case "zero":
+                strings = self.handleMutate(strings, "0")
+            case "positive":
+                strings = self.handleMutate(strings, "1")
+            case "negative":
+                strings = self.handleMutate(strings, "-1")
+            case "large_negative":
+                strings = self.handleMutate(strings, f"{-10**55}")
+            case "large_positive":
+                strings = self.handleMutate(strings, f"{10**55}")
+            case "null_terminator":
+                strings = self.handleMutate(strings, "\0")
+            case "format":
+                strings = self.handleMutate(strings, "%x%n")
+        
+        strings = self.constructCsv(strings)
+        return strings
 
+    def handleMutate(self, strings, payload): 
+        for idx1, row in enumerate(strings):
+            values = strings[idx1].split(",")
+            for idx2, value in enumerate(values):
+                values[idx2] = payload 
+            strings[idx1] = ",".join(values)
+        return strings
+
+    def handleRows(self, strings) -> List[str]:
+        chosen_row = random.randint(0, len(strings) - 1)
+        for idx1, row in enumerate(strings):
+            if idx1 == chosen_row:
+                values = strings[idx1].split(",")
+                for idx2, value in enumerate(values):
+                    values[idx2] = "A" * 100
+                strings[idx1] = ",".join(values)
+        print(strings)
+        return strings
+
+        
     def deconstructCsv(self, string: str) -> List:
         '''
         Deconstructs a CSV string into a list of those comma seperated values.
